@@ -1,11 +1,12 @@
-# TTT2 - Trouble in Terrorist Town 2
+[![TTTR](https://www.heprgryph.cn/images/TTT2%20ver.r_logo_cn.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=2848466456)
+# TTT2-9CnBranch/TTTR - 恐怖分子镇的麻烦:ReStar
 
 ![CI](https://github.com/TTT-2/TTT2/workflows/CI/badge.svg?branch=master)
 [![Steam Subscriptions](https://img.shields.io/steam/subscriptions/1357204556)](https://steamcommunity.com/sharedfiles/filedetails/?id=1357204556)
 [![Steam Downloads](https://img.shields.io/steam/downloads/1357204556)](https://steamcommunity.com/sharedfiles/filedetails/?id=1357204556)
 [![Discord](https://img.shields.io/discord/442107660955942932)](https://discord.gg/9njYXGY)
 
-**This is still a beta version.**
+**这是TTT2的9CN服务器分支，非官方TTT2仓库！**
 
 Please make sure to check out [our FAQ page](https://docs.ttt2.neoxult.de/troubleshooting/)
 and browse [existing issues](https://github.com/TTT-2/TTT2/issues)
