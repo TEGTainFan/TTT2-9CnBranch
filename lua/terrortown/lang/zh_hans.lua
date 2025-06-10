@@ -2356,108 +2356,86 @@ L.label_button_player_force_role = "强制角色"
 L.label_player_role = "选择角色"
 
 -- 2024-09-16
---L.help_enable_loadingscreen_server = [[
---The loading screen settings also exist on the client. They are hidden if disabled on the server.
---
---The minimum display time is there to give the player time to read the tips. If the reload of the map takes longer than the minimum time, the loading screen is shown as long as it needs to be. In general a reload time of 0.5 to 1 second is to be expected.]]
+L.help_enable_loadingscreen_server = [[
+如果在服务器上禁用加载屏幕设置，客户端设置也将被隐藏。
 
---L.label_enable_loadingscreen_server = "Enable the loading screen serverwide"
---L.label_loadingscreen_min_duration = "Minimum loading screen display time"
+最小显示时间是为了给玩家时间阅读提示。如果地图重新加载所需时间超过最小时间，加载屏幕将根据需要显示。通常重新加载时间预计为0.5到1秒。]]
+
+L.label_enable_loadingscreen_server = "在服务器中启用加载屏幕"
+L.label_loadingscreen_min_duration = "最小加载屏幕显示时间"
 
 -- 2024-09-18
---L.label_keyhelper_leave_vehicle = "leave vehicle"
---L.name_vehicle = "Vehicle"
---L.vehicle_enter = "Press [{usekey}] to enter vehicle"
+L.label_keyhelper_leave_vehicle = "离开载具"
+L.name_vehicle = "载具"
+L.vehicle_enter = "按 [{usekey}] 进入载具"
 
 -- 2024-11-27
---L.corpse_hint_without_confirm = "Press [{usekey}] to search."
+L.corpse_hint_without_confirm = "按 [{usekey}] 搜查。"
 
 -- 2025-01-05
---L.help_session_limits_mode = [[
---There are four different session limit modes you can choose from:
---
---mode 0: No session limits. TTT2 will not end the session and will not trigger a map change.
---
---mode 1: Default TTT2 mode. A map change will trigger if either the session time or session round count runs out.
---
---mode 2: Only time limit. A map change will only trigger if the session time runs out.
---
---mode 3: Only round limit. A map change will only trigger if the session round count runs out.]]
---L.label_session_limits_mode = "Set session limit mode"
---L.choice_session_limits_mode_0 = "mode 0: no session limits"
---L.choice_session_limits_mode_1 = "mode 1: time and round limit"
---L.choice_session_limits_mode_2 = "mode 2: only time limit"
---L.choice_session_limits_mode_3 = "mode 3: only round limit"
+L.help_session_limits_mode = [[
+您可以选择四种不同的会话限制模式：
+
+模式 0：无会话限制。TTT2 不会结束会话，也不会触发地图更换。
+
+模式 1：默认 TTT2 模式。如果会话时间或会话回合数用完，将触发地图更换。
+
+模式 2：仅时间限制。只有在会话时间用完时才会触发地图更换。
+
+模式 3：仅回合限制。只有在会话回合数用完时才会触发地图更换。]]
+L.label_session_limits_mode = "设置会话限制模式"
+L.choice_session_limits_mode_0 = "模式 0：无会话限制"
+L.choice_session_limits_mode_1 = "模式 1：时间和回合限制"
+L.choice_session_limits_mode_2 = "模式 2：仅时间限制"
+L.choice_session_limits_mode_3 = "模式 3：仅回合限制"
 
 -- 2024-12-30
---L.searchbar_roles_placeholder = "Search roles..."
---L.label_menu_search_no_items = "No items matched your search."
+L.searchbar_roles_placeholder = "搜索角色..."
+L.label_menu_search_no_items = "没有找到匹配的项目。"
 
---L.submenu_roles_overview_title = "Roles Overview (READ ME)"
+L.submenu_roles_overview_title = "角色概览（请阅读）"
 
--- Is there a way to ahve some sort of external file that's possibly-localized?
 --L.roles_overview_html = [[
---<h1>Overview</h1>
+--<h1>概览</h1>
+--  
+--TTT2 的核心机制之一是<em>角色</em>。它们控制着你的目标、你的队友以及你能做什么。因此，它们分配给玩家的方式非常重要。角色分配系统非常复杂，此菜单中的子菜单控制着该系统的几乎每个方面。对于许多可用选项，了解分配系统整体如何工作对于能够为服务器进行所需更改至关重要。
 --
---One of TTT2's core mechanics are <em>roles</em>. They control what your
---goals are, who your teammates are, and what you can do. The way that they
---are distributed to players is thus very important. The role distribution
---system is very complicated, and submenus in this menu control almost every
---aspect of that system. For many of the options available, understanding how
---the distribution system as a whole works can be crucial to being able to make
---the changes you want for your server.
---
---<h2>Terminology</h2>
+--<h2>术语</h2>
 --
 --<ul>
---<li><em>Role</em> &mdash; The role assigned to a player at round start,
---e.g. <em>Traitor</em>, <em>Innocent</em>, <em>Necromancer</em>, etc.</li>
---<li><em>Base role</em> &mdash; A <em>role</em>
---selected first, that acts as a kind of high-level template for the final
---role a player will recieve. <em>Base roles</em> can be final roles. Ex.
---<em>Innocent</em>, <em>Traitor</em>, <em>Pirate</em></li>
---<li><em>Subrole</em> &mdash; A <em>role</em> assigned as a
---refinement of a <em>base role</em>. Each possible <em>subrole</em> is
---associated with a <em>base role</em>, such that a player must have been
---assigned the appropriate <em>base role</em> for them to end up with a
---<em>subrole</em>. Ex. <em>Detective</em> (Innocent subrole), <em>Hitman</em>
---(Traitor subrole), <em>Survivalist</em> (Innocent subrole), etc.</li>
+--<li><em>角色</em> —— 在回合开始时分配给玩家的角色，例如<em>叛徒</em>、<em>无辜者</em>、<em>死灵法师</em>等。</li>
+--<li><em>基础角色</em> —— 首先选择的<em>角色</em>，作为玩家将获得的最终角色的高级模板。<em>基础角色</em>可以是最终角色。例如<em>无辜者</em>、<em>叛徒</em>、<em>海盗</em></li>
+--<li><em>子角色</em> —— 作为<em>基础角色</em>细化而分配的<em>角色</em>。每个可能的<em>子角色</em>都与<em>基础角色</em>相关联，因此玩家必须被分配相应的<em>基础角色</em>才能最终获得<em>子角色</em>。例如<em>侦探</em>（无辜者子角色）、<em>杀手</em>（叛徒子角色）、<em>生存主义者</em>（无辜者子角色）等。</li>
 --</ul>
 --
---<h2>The Algorithm</h2>
+--<h2>算法</h2>
 --
---<em>Implementation is</em> <code>roleselection.SelectRoles</code>
+--<em>实现位于</em> <code>roleselection.SelectRoles</code>
 --
 --<ol>
 --
 --<li>
 --<p>
---Determine the number of players that can be given each role.
---<em>Innocent</em> and <em>Traitor</em> always have available slots.
+--确定可以分配给每个角色的玩家数量。
+--<em>无辜者</em>和<em>叛徒</em>总是有可用的位置。
 --</p>
 --<p>
---All roles (both base and subroles) get the computed here. Subroles
---only have selectable slots if their corresponding base roles do.
+--所有角色（基础角色和子角色）都在这里计算。子角色只有在其对应的基础角色有可选位置时才有可选的位置。
 --</p>
 --<p>
---Each role is assigned a chance that it's distributed. If that chance
---fails, this step sets the possible number of players with this role to zero.
+--每个角色都被分配一个分配概率。如果该概率失败，此步骤将该角色的可能玩家数量设置为零。
 --</p>
 --<p>
---<em>Implemented in</em>
+--<em>实现位于</em>
 --<code>roleselection.GetAllSelectableRolesList</code>
 --</p>
 --</li>
---
 --<li>
 --<p>
---Select the roles that will actually be distributed, limited by the
---layer configuration and configured maximum number of roles. This process
---is sufficiently complicated to be worthy of its own section; details
---are in the next section.
+--选择实际将分配的角色，受层配置和配置的最大角色数量限制。此过程足够复杂，值得有自己的章节；详细信息在下一节中。
 --</p>
 --<p>
---<em>Implemented in</em>
+--<em>实现位于</em>
 --<code>roleselection.GetSelectableRolesList</code>
 --</p>
 --</li>
@@ -2683,43 +2661,43 @@ L.label_player_role = "选择角色"
 --]]
 
 -- 2025-01-07
---L.graph_sort_mode_none = "No Sorting"
---L.graph_sort_mode_highlight_order = "Highlighted First"
---L.graph_sort_mode_value_asc = "Ascending"
---L.graph_sort_mode_value_desc = "Descending"
---L.graph_sort_mode_player_name = "Player Name"
+L.graph_sort_mode_none = "不排序"
+L.graph_sort_mode_highlight_order = "高亮优先"
+L.graph_sort_mode_value_asc = "升序"
+L.graph_sort_mode_value_desc = "降序"
+L.graph_sort_mode_player_name = "玩家姓名"
 
---L.submenu_roles_roleinspect = "Role Distribution Inspection"
---L.header_roleinspect_info = "Role Distribution Inspection"
---L.help_roleinspect = [[When this is enabled, information about the decisions made during role distribution is collected. If any such information is available, it is displayed on this page.
---
---This information is only ever available for the last round which was started on this map with the option enabled.
---
---Must be enabled when role distribution happens (when the round starts) to take effect.]]
---L.label_roleinspect_enable = "Enable capturing role distribution inspection information"
---L.label_roleinspect_no_data = "No role inspection data is available."
---L.help_roleinspect_unknown_stage = "Unknown stage when rendering UI. Please open an issue."
+L.submenu_roles_roleinspect = "角色分配检查"
+L.header_roleinspect_info = "角色分配检查"
+L.help_roleinspect = [[启用此选项后，将收集角色分配过程中所做决策的信息。如果有任何此类信息可用，它将显示在此页面上。
 
--- Decisions
---L.roleinspect_decision_none = "No decision was made."
---L.roleinspect_decision_consider = "The role will be considered."
---L.roleinspect_decision_no_consider = "The role will not be considered."
---L.roleinspect_decision_role_assigned = "The role is assigned."
---L.roleinspect_decision_role_not_assigned = "The role is not assigned."
+此信息仅适用于在启用该选项的情况下在此地图上开始的最后一轮。
+
+必须在角色分配发生时（回合开始时）启用才能生效。]]
+L.label_roleinspect_enable = "启用捕获角色分配检查信息"
+L.label_roleinspect_no_data = "没有可用的角色检查数据。"
+L.help_roleinspect_unknown_stage = "渲染UI时的未知阶段。请提交问题。"
+
+-- 决策
+L.roleinspect_decision_none = "未做出决策。"
+L.roleinspect_decision_consider = "该角色将被考虑。"
+L.roleinspect_decision_no_consider = "该角色不会被考虑。"
+L.roleinspect_decision_role_assigned = "该角色已分配。"
+L.roleinspect_decision_role_not_assigned = "该角色未分配。"
 
 -- ROLEINSPECT_STAGE_PRESELECT
---L.header_roleinspect_stage_preselect = "Stage 1: Preselection"
---L.help_roleinspect_stage_preselect = [[
---This stage determines the number of players that can be assigned each role. Roles with 0 possible players are not considered further.
---
---Hover over each role icon for details about that role.
---
---Max players: {maxPlayers}]]
---L.tooltip_preselect_role_desc = [[
---Role: {name}
---Decision: {decision}
---Reason: {reason}
---# of Players: {finalCount}]]
+L.header_roleinspect_stage_preselect = "阶段 1：预选择"
+L.help_roleinspect_stage_preselect = [[
+此阶段确定可以分配给每个角色的玩家数量。可能玩家数为0的角色不会进一步考虑。
+
+将鼠标悬停在每个角色图标上以查看该角色的详细信息。
+
+最大玩家数：{maxPlayers}]]
+L.tooltip_preselect_role_desc = [[
+角色：{name}
+决策：{decision}
+原因：{reason}
+玩家数量：{finalCount}]]
 
 -- Reasons
 -- REASON_FORCED for a CONSIDER decision in PRESELECT == Role is a builtin
@@ -2791,42 +2769,42 @@ L.label_player_role = "选择角色"
 --This shows the final role assignments. These may have been modified by a hook after subroles were assigned.]]
 
 -- 2025-01-19
---L.help_rolelayering_enable = "The red and green border around the icon shows if the role is currently enabled. Right click on an icon to quickly enable/disable that role."
+L.help_rolelayering_enable = "图标周围的红色和绿色边框显示该角色当前是否启用。右键单击图标可快速启用/禁用该角色。"
 
 -- 2025-01-20
---L.label_hud_show_team_name = "Enable showing team name next to role name"
+L.label_hud_show_team_name = "在角色名称旁边显示团队名称"
 
 -- 2025-01-31
---L.radio_desc = [[
---Plays sounds to distract or deceive.
---
---Place the radio somewhere, and then remotely interact with it to choose sounds to play.]]
+L.radio_desc = [[
+播放声音来分散注意力或欺骗他人。
+
+将收音机放置在某处，然后远程与它交互来选择要播放的声音。]]
 
 -- 2025-02-13
---L.help_c4_radius = [[
---C4 uses two different zones to calculate the damage of its explosion:
---
---Players within the "kill zone" will receive the full damage of the devastating explosion.
---
---Players within the "damage zone" (and outside the "kill zone") will receive a percentage of the damage based on their position between the borders of both zones.]]
+L.help_c4_radius = [[
+C4 使用两个不同的区域来计算爆炸伤害：
 
---L.label_c4_radius_inner = "C4 Kill Zone radius"
---L.label_c4_radius = "C4 Damage Zone radius"
+位于"杀伤区"内的玩家将受到毁灭性爆炸的全部伤害。
+
+位于"伤害区"内（在"杀伤区"外）的玩家将根据他们在两个区域边界之间的位置受到百分比伤害。]]
+
+L.label_c4_radius_inner = "C4 杀伤区半径"
+L.label_c4_radius = "C4 伤害区半径"
 
 -- 2025-02-21
 L.length_in_meters = "{length}米"
---L.length_in_yards = "{length}yd"
---L.length_in_feet = "{length}ft"
+L.length_in_yards = "{length}码"
+L.length_in_feet = "{length}英尺"
 
---L.label_distance_unit = "Preferred unit of length for distance displays"
---L.choice_distance_unit_0 = "Inches"
---L.choice_distance_unit_1 = "Meters"
---L.choice_distance_unit_2 = "Yards"
---L.choice_distance_unit_3 = "Feet"
+L.label_distance_unit = "距离显示的首选长度单位"
+L.choice_distance_unit_0 = "英寸"
+L.choice_distance_unit_1 = "米"
+L.choice_distance_unit_2 = "码"
+L.choice_distance_unit_3 = "英尺"
 
 -- 2025-03-06
---L.label_armor_block_clubdmg = "Enable armor blocking crowbar damage"
+L.label_armor_block_clubdmg = "启用护甲阻挡撬棍伤害"
 
 -- 2025-03-10
---L.label_sprint_stamina_cooldown = "Stamina cooldown time"
---L.label_sprint_stamina_forwards_only = "Disallow sprinting backwards or laterally"
+L.label_sprint_stamina_cooldown = "体力冷却时间"
+L.label_sprint_stamina_forwards_only = "禁止向后或侧向冲刺"
