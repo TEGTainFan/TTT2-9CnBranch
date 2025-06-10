@@ -269,7 +269,7 @@ function PANEL:Init()
     self:SetDrawBorder(false)
 
     self:SetFont("treb_small")
-    self:SetTextColor(self.Tag and self.Tag.color or Color(220, 220, 220, 255))
+    self:SetTextColor(self.Tag and self.Tag.color or Color(180, 185, 195, 255))
 end
 
 ---
@@ -288,7 +288,7 @@ function PANEL:SetupTag(tag)
     self.Color = tag.color
     self.Text = tag.txt
 
-    self:SetTextColor(self.Tag and self.Tag.color or Color(220, 220, 220, 255))
+    self:SetTextColor(self.Tag and self.Tag.color or Color(180, 185, 195, 255))
 end
 
 ---
@@ -328,8 +328,13 @@ end
 -- @realm client
 function PANEL:PaintOver()
     if self.Player and self.Player.sb_tag == self.Tag then
-        surface.SetDrawColor(180, 180, 180, 255)         -- 亮灰色边框
+        -- 现代化选中效果
+        surface.SetDrawColor(52, 152, 219, 255)         -- 现代蓝色边框
         surface.DrawOutlinedRect(0, 0, self:GetWide(), self:GetTall())
+        
+        -- 内部光晕效果
+        surface.SetDrawColor(52, 152, 219, 60)
+        surface.DrawRect(1, 1, self:GetWide() - 2, self:GetTall() - 2)
     end
 end
 
