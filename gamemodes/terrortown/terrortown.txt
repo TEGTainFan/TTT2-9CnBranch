@@ -1,0 +1,8 @@
+"terrortown"
+{
+	"base"		"base"
+	"title"		"恐怖分子镇的麻烦：ReStar"
+	"maps"		"^ttt_"
+	"category"	"pvp"
+	"menusystem"	"1"
+}
