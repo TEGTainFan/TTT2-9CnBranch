@@ -8,10 +8,7 @@
 
 **这是TTT2的9CN服务器分支，非官方TTT2仓库！**
 
-Please make sure to check out [our FAQ page](https://docs.ttt2.neoxult.de/troubleshooting/)
-and browse [existing issues](https://github.com/TTT-2/TTT2/issues)
-before [reporting bugs](https://github.com/TTT-2/TTT2/issues/new?assignees=&labels=&projects=&template=bug_report.md)
-or [suggestions](https://github.com/TTT-2/TTT2/issues/new?assignees=&labels=&projects=&template=feature_request.md)!
+在你[提交Issues](https://github.com/TTT-2/TTT2/issues/new?assignees=&labels=&projects=&template=bug_report.md)前，请先访问[我们的FAQ页面](https://docs.ttt2.neoxult.de/troubleshooting/)并浏览[现有issues](https://github.com/TTT-2/TTT2/issues)或[提出建议](https://github.com/TTT-2/TTT2/issues/new?assignees=&labels=&projects=&template=feature_request.md)!
 
 * Discord: [https://discord.gg/Npcbb4W](https://discord.gg/Npcbb4W)
 * Design-Guidelines: [https://github.com/TTT-2/TTT2/blob/master/DESIGNGUIDELINES.md](https://github.com/TTT-2/TTT2/blob/master/DESIGNGUIDELINES.md)
@@ -19,67 +16,34 @@ or [suggestions](https://github.com/TTT-2/TTT2/issues/new?assignees=&labels=&pro
 * API-Documentation: [https://api-docs.ttt2.neoxult.de/](https://api-docs.ttt2.neoxult.de/)
 * Steam Workshop: [https://steamcommunity.com/sharedfiles/filedetails/?id=1357204556](https://steamcommunity.com/sharedfiles/filedetails/?id=1357204556)
 
-## MOTIVATION
+## 简介
 
-TTT2 was the next logical step after TTT was such a massive success.
-It is a spiritual successor to this classic gamemode by Bad King Urgrain.
-Aiming to introduce new features, fix old bugs and modernize the user interface.
+TTTR是《TTT2》的9CN服务器特化分支，为服务器的多项新功能提供额外支持。
+是Bad King Urgrain制作的这一经典游戏模式的精神继承者。
+旨在引入新功能、修复旧错误并使用户界面现代化。
 
-## ADDONS
+## 模组支持
 
-We know that TTT lives from its huge community and all its great addons.
-Because of this, **compatibility** is one of the highest priorities.
-Almost every item that works with TTT also works with TTT2.
-HUD and role related addons are the exceptions.
+我们知道，TTT的生命来自于其庞大的社区和所有优秀的莫。
+因此，**兼容性**是最优先考虑的事项之一。
+几乎所有适用于TTT/TTT2的项目也适用于TTTR。
+与HUD和角色相关的模组除外。
 
-Additionally we have introduced a compatibility checker.
-On server start it prints incompatible or outdated addons to the server console.
-More on this in our documentation [here](https://docs.ttt2.neoxult.de/troubleshooting/#addon-checker).
+此外，我们还引入了兼容性检查器。
+服务器启动时，它会将不兼容或过时的附加组件打印到服务器控制台。
+更多信息请参见我们的文档 [此处](https://docs.ttt2.neoxult.de/troubleshooting/#addon-checker)。
 
-TTT2 also features some additions which TTT needed addons for:
+TTTR还添加了一些TTT需要的附加组件：
 
-* overhauled equipment menu
-* drowning indicator
-* sprinting and stamina
+* 大修后的设备菜单
+* 溺水指示器
+* 冲刺功能和耐力条
 
-## NEW GAMEMODES
+## 鸣谢
 
-There are a few new gamemodes based on TTT2.
-Click on these icons to open the steam collection to these official gamemodes.
+[rubiez](https://sketchfab.com/rubiez)创造了DNA检测器的模型
+它被移植到起源引擎并制作成动画。
+原模型可以在[这里](https://sketchfab.com/3d-models/flir-e5-c5c37e8cd607424fbdb06c7ae2924924)找到
+其使用许可由[CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)保护。
 
-[![TTT2 Totem](https://i.imgur.com/5JAsxin.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=1672031318)
-[![TTT2 Fate](https://i.imgur.com/qwEkCPb.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=1672014264)
-[![TTT2 Heroes](https://i.imgur.com/WVuPmxP.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=1737047642)
-
-## SETUP
-
-The setup is fairly easy. Just subscribe to TTT2 and the addons you want to use.
-
-Removal of the 'vanilla' TTT files is **not** needed and actively harmful as those
-files are still needed for TTT2.
-
-## THE HISTORY OF TTT2
-
-The idea of TTT2 was born in early 2018 by Alf21.
-He was annoyed of all these different role mods
-(such as [TTT Totem](https://steamcommunity.com/sharedfiles/filedetails/?id=828347015)
-and [Town Of Terror](https://steamcommunity.com/sharedfiles/filedetails/?id=1092556189))
-that wouldn’t work together.
-So he created a new role system and called it TTT2.
-
-Mineotopia was the first one to join his team.
-He is by himself a very active player and server admin and liked the concept.
-There was only one big problem: The icons were the definition of ugly.
-He offered to help with graphics and over time he became an active member of TTT2.
-
-The next big step was a project with two german youtubers, Dhalucard and PietSmiet.
-We created an exclusive addon for TTT2, called TTT Heroes.
-At this point, Saibotk joined the team and the development rate increased.
-The idea of a completely revamped user interface was born!
-
-## Credits
-
-Credit to [rubiez](https://sketchfab.com/rubiez) for creating the DNA Scanner model.
-It was ported to source engine and animated.
-The original can be found [here](https://sketchfab.com/3d-models/flir-e5-c5c37e8cd607424fbdb06c7ae2924924)
-It is licensed under the [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/).
+[TTT2](https://github.com/TTT-2/TTT2)的开发者们创造了如此有趣的新模式，并感谢[TimGoll](https://github.com/TimGoll)与[8z](https://github.com/TheOnly8Z)提供平面设计规范与代码答疑
