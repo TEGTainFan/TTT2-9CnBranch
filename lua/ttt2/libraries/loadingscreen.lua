@@ -477,7 +477,7 @@ if CLIENT then
         end
 
         -- 调试信息：显示关键状态
-        print("[TTT2加载屏幕] 调试信息:", {
+        local debugInfo = {
             state = loadingscreen.state,
             progress = progress,
             timeStateChange = loadingscreen.timeStateChange,
@@ -486,8 +486,34 @@ if CLIENT then
             hasVskin = vskin ~= nil,
             hasAppearance = appearance ~= nil,
             logoMaterial = loadingscreen.logoMaterial ~= nil,
-            currentTipText = loadingscreen.currentTipText ~= nil
-        })
+            currentTipText = loadingscreen.currentTipText ~= nil,
+            screenWidth = ScrW(),
+            screenHeight = ScrH(),
+            centerX = ScrW() / 2,
+            centerY = ScrH() / 2,
+            hasPureSkinRole = surface.GetFontID("PureSkinRole") ~= nil,
+            cvLoadingScreen = cvLoadingScreen:GetBool(),
+            cvLoadingScreenTips = cvLoadingScreenTips:GetBool()
+        }
+        
+        -- 格式化输出调试信息
+        print("=== TTT2加载屏幕调试信息 ===")
+        for k, v in pairs(debugInfo) do
+            print(string.format("[TTT2加载屏幕] %s: %s", k, tostring(v)))
+        end
+        print("==========================")
+
+        -- 在绘制加载文本之前添加更详细的调试
+        local dotCount = math.floor(time * 2) % 4
+        local loadingDots = string.rep(".", dotCount)
+        local loadingText = "加载中" .. loadingDots
+        
+        print("=== TTT2加载文本状态 ===")
+        print(string.format("[TTT2加载屏幕] 文本内容: %s", loadingText))
+        print(string.format("[TTT2加载屏幕] 点数量: %d", dotCount))
+        print(string.format("[TTT2加载屏幕] 位置: X=%d, Y=%d", ScrW() / 2, ScrH() / 2 + 50))
+        print(string.format("[TTT2加载屏幕] 字体状态: %s", surface.GetFontID("PureSkinRole") ~= nil and "可用" or "不可用"))
+        print("========================")
 
         -- stop rendering the loadingscreen if the progress is close to 0
         if progress < 0.01 then
@@ -606,11 +632,6 @@ if CLIENT then
         )
         
         -- 动态加载指示器
-        local dotCount = math.floor(time * 2) % 4
-        local loadingDots = string.rep(".", dotCount)
-        local loadingText = "加载中" .. loadingDots
-        
-        -- 确保loadingY有默认值，不依赖LoadingScreenVisual
         local loadingY = centerY + 50
         if LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo then
             loadingY = centerY + (LoadingScreenVisual.ShouldShowLogo() and 120 or 50)
