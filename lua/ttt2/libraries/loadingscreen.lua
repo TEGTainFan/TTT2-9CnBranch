@@ -589,19 +589,36 @@ if CLIENT then
         local dotCount = math.floor(time * 2) % 4
         local loadingDots = string.rep(".", dotCount)
         local loadingText = "加载中" .. loadingDots
-        local loadingY = centerY + (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo() and 120 or 50)
         
-        draw.AdvancedText(
-            loadingText,
-            "PureSkinRole",
-            centerX,
-            loadingY,
-            Color(vskin.GetAccentColor().r, vskin.GetAccentColor().g, vskin.GetAccentColor().b, 200 * progress),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
+        -- 确保loadingY有默认值，不依赖LoadingScreenVisual
+        local loadingY = centerY + 50
+        if LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo then
+            loadingY = centerY + (LoadingScreenVisual.ShouldShowLogo() and 120 or 50)
+        end
+        
+        -- 使用更稳定的颜色值
+        local loadingColor = Color(255, 255, 255, 200 * progress)
+        if vskin and vskin.GetAccentColor then
+            local accentColor = vskin.GetAccentColor()
+            if accentColor then
+                loadingColor = Color(accentColor.r, accentColor.g, accentColor.b, 200 * progress)
+            end
+        end
+        
+        -- 添加错误处理
+        pcall(function()
+            draw.AdvancedText(
+                loadingText,
+                "PureSkinRole",
+                centerX,
+                loadingY,
+                loadingColor,
+                TEXT_ALIGN_CENTER,
+                TEXT_ALIGN_CENTER,
+                true,
+                appearance and appearance.GetGlobalScale and appearance.GetGlobalScale() or 1
+            )
+        end)
 
         -- 提示文本区域
         
