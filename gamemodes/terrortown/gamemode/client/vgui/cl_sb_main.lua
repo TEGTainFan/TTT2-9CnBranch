@@ -103,7 +103,7 @@ function ScoreGroup(ply)
 end
 
 TTTScoreboard = TTTScoreboard or {}
-TTTScoreboard.Logo = surface.GetTextureID("vgui/ttt/score_logo_2")
+TTTScoreboard.Logo = surface.GetTextureID("vgui/ttt/score_logo_3")
 
 surface.CreateFont("cool_small", {
     font = "coolvetica",
@@ -370,32 +370,37 @@ local colors = {
     textSecondary = Color(180, 185, 195, 255), -- 次要文字色
 }
 
-local y_logo_off = 89
+local y_logo_off = 120  -- logo区域高度，适配新logo尺寸
 
 ---
 -- @ignore
 function PANEL:Paint()
     local w, h = self:GetWide(), self:GetTall()
     
+    -- Logo区域背景阴影
+    draw.RoundedBox( 12, -6, -6, w + 12, y_logo_off + 12, colors.shadow )
+    
+    -- Logo区域背景
+    draw.RoundedBox( 12, 0, 0, w, y_logo_off, Color(30, 34, 40, 230) )
+    
     -- 主背景阴影
-    draw.RoundedBox( 12, -6, -6, w + 12, h + 12, colors.shadow )
+    draw.RoundedBox( 12, -6, y_logo_off - 6, w + 12, h - y_logo_off + 12, colors.shadow )
     
     -- 主背景
     draw.RoundedBox( 12, 0, y_logo_off, w, h - y_logo_off, colors.bg )
     
     -- 头部区域背景
-    draw.RoundedBoxEx( 12, 0, y_logo_off + 25, w, 57, colors.bgHeader, true, true, false, false )
+    draw.RoundedBoxEx( 12, 0, y_logo_off + 2, w, 40, colors.bgHeader, true, true, false, false )
     
-    -- 服务器名称条形 - 现代化设计
-    draw.RoundedBox( 8, 10, y_logo_off + 30, w - 20, 22, colors.bar )
+    -- TTT Logo - 居左显示
+    local logo_width = 299  -- logo宽度 (499像素缩放到60%)
+    local logo_height = 154  -- logo高度 (256像素缩放到60%)
+    local logo_x = 15  -- 左边距
+    local logo_y = (y_logo_off - logo_height) * 0.5 - 8  -- 在logo区域内垂直居中并稍微下移
     
-    -- 条形光晕效果
-    draw.RoundedBox( 12, 8, y_logo_off + 28, w - 16, 26, colors.barGlow )
-    
-    -- TTT Logo - 清晰显示
     surface.SetTexture(TTTScoreboard.Logo)
     surface.SetDrawColor(255, 255, 255, 255)
-    surface.DrawTexturedRect(5, 0, 256, 256)
+    surface.DrawTexturedRect(logo_x, logo_y, logo_width, logo_height)
 end
 
 ---
@@ -424,31 +429,35 @@ function PANEL:PerformLayout()
 
     self.ply_frame:GetCanvas():SetSize(self.ply_frame:GetCanvas():GetWide(), gy)
 
-    local h = y_logo_off + 110 + self.ply_frame:GetCanvas():GetTall()
+    local h = y_logo_off + 45 + self.ply_frame:GetCanvas():GetTall()
 
     -- if we will have to clamp our height, enable the mouse so player can scroll
     local scrolling = h > ScrH() * 0.95
     --	gui.EnableScreenClicker(scrolling)
     self.ply_frame:SetScroll(scrolling)
 
-    h = math.Clamp(h, 110 + y_logo_off, ScrH() * 0.95)
+    h = math.Clamp(h, 45 + y_logo_off, ScrH() * 0.95)
 
     local w = math.max(ScrW() * 0.6, 640)
 
     self:SetSize(w, h)
     self:SetPos((ScrW() - w) * 0.5, math.min(72, (ScrH() - h) * 0.25))
 
-    self.ply_frame:SetPos(8, y_logo_off + 109)
-    self.ply_frame:SetSize(self:GetWide() - 16, self:GetTall() - 109 - y_logo_off - 5)
+    self.ply_frame:SetPos(8, y_logo_off + 45)
+    self.ply_frame:SetSize(self:GetWide() - 16, self:GetTall() - 45 - y_logo_off - 5)
 
-    -- server stuff
+    -- server stuff - 重新定位到logo右侧
+    local logo_width = 299
+    local logo_end_x = 15 + logo_width + 25  -- logo右边缘加间距
+    local info_start_y = (y_logo_off - 60) * 0.5  -- 在logo区域内垂直居中信息块
+    
     self.hostdesc:SizeToContents()
-    self.hostdesc:SetPos(w - self.hostdesc:GetWide() - 8, y_logo_off + 5)
+    self.hostdesc:SetPos(w - self.hostdesc:GetWide() - 8, info_start_y)
 
-    local hw = w - 180 - 8
+    local hw = w - logo_end_x - 16
 
-    self.hostname:SetSize(hw, 32)
-    self.hostname:SetPos(w - self.hostname:GetWide() - 8, y_logo_off + 27)
+    self.hostname:SetSize(hw, 22)
+    self.hostname:SetPos(w - self.hostname:GetWide() - 8, info_start_y + 20)
 
     surface.SetFont("cool_large")
 
@@ -463,10 +472,10 @@ function PANEL:PerformLayout()
     self.hostname:SetText(hname)
 
     self.mapchange:SizeToContents()
-    self.mapchange:SetPos(w - self.mapchange:GetWide() - 8, y_logo_off + 60)
+    self.mapchange:SetPos(w - self.mapchange:GetWide() - 8, info_start_y + 45)
 
     -- score columns
-    local cy = y_logo_off + 95
+    local cy = y_logo_off + 12
     local cx = w - 8 - (scrolling and 16 or 0)
 
     for _, v in ipairs(self.cols) do
