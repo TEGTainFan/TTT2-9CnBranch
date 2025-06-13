@@ -491,7 +491,7 @@ if CLIENT then
             screenHeight = ScrH(),
             centerX = ScrW() / 2,
             centerY = ScrH() / 2,
-            hasPureSkinRole = surface.GetFontID("PureSkinRole") ~= nil,
+            hasPureSkinRole = surface.GetFont("PureSkinRole") ~= nil,
             cvLoadingScreen = cvLoadingScreen:GetBool(),
             cvLoadingScreenTips = cvLoadingScreenTips:GetBool()
         }
@@ -508,152 +508,31 @@ if CLIENT then
         local loadingDots = string.rep(".", dotCount)
         local loadingText = "加载中" .. loadingDots
         
+        -- 检查字体是否可用
+        local fontAvailable = false
+        pcall(function()
+            local font = surface.GetFont("PureSkinRole")
+            fontAvailable = font ~= nil
+        end)
+        
         print("=== TTT2加载文本状态 ===")
         print(string.format("[TTT2加载屏幕] 文本内容: %s", loadingText))
         print(string.format("[TTT2加载屏幕] 点数量: %d", dotCount))
         print(string.format("[TTT2加载屏幕] 位置: X=%d, Y=%d", ScrW() / 2, ScrH() / 2 + 50))
-        print(string.format("[TTT2加载屏幕] 字体状态: %s", surface.GetFontID("PureSkinRole") ~= nil and "可用" or "不可用"))
+        print(string.format("[TTT2加载屏幕] 字体状态: %s", fontAvailable and "可用" or "不可用"))
         print("========================")
 
-        -- stop rendering the loadingscreen if the progress is close to 0
-        if progress < 0.01 then
-            print("[TTT2加载屏幕] 进度过低，停止渲染")
-            return
-        end
-
-        -- 绘制多层背景效果
-        local blurIntensity = LoadingScreenVisual and LoadingScreenVisual.GetBlurIntensity() or 15
-        draw.BlurredBox(0, 0, ScrW(), ScrH(), progress * blurIntensity)
-        draw.BlurredBox(0, 0, ScrW(), ScrH(), progress * (blurIntensity * 0.5))
-        draw.BlurredBox(0, 0, ScrW(), ScrH(), progress * (blurIntensity * 0.2))
+        -- 如果字体不可用，使用备用字体
+        local fontName = fontAvailable and "PureSkinRole" or "DermaLarge"
         
-        -- 渐变背景
-        DrawGradientBackground(progress)
-        
-        -- 主背景覆盖层
-        local c = util.ColorDarken(vskin.GetDarkAccentColor(), 85)
-        local colorLoadingScreen = Color(c.r, c.g, c.b, 200 * progress)
-        draw.Box(0, 0, ScrW(), ScrH(), colorLoadingScreen)
-        
-        -- 装饰元素
-        if not LoadingScreenVisual or LoadingScreenVisual.ShouldShowGeometry() then
-            DrawDecoElements(progress, c)
-        end
-        
-        -- 粒子效果
-        DrawParticles(progress)
-        
-        -- LOGO绘制 (在文字之前绘制，作为背景层)
-        DrawLogo(progress)
-        
-
-        
-        -- 中央内容区域
-        local centerX, centerY = ScrW() / 2, ScrH() / 2
-        local animSpeed = LoadingScreenVisual and LoadingScreenVisual.GetAnimationSpeed() or 1
-        local time = (SysTime() - loadingscreen.animationStartTime) * animSpeed
-        
-        -- 主标题带阴影效果  
-        local titleText = LANG.TryTranslation("loadingscreen_round_restart_title")
-        local logoOffset = (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo()) and 120 or 60
-        local titleY = centerY - logoOffset
-        local titleBounce = math.sin(time * 2) * 3
-        
-        -- 阴影
-        draw.AdvancedText(
-            titleText,
-            "PureSkinPopupTitle",
-            centerX + 2,
-            titleY + titleBounce + 2,
-            Color(0, 0, 0, 150 * progress),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-        
-        -- 主文字
-        local titleColor = Color(255, 255, 255, 255 * progress)
-        draw.AdvancedText(
-            titleText,
-            "PureSkinPopupTitle",
-            centerX,
-            titleY + titleBounce,
-            titleColor,
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-
-        -- 子标题文本
-        local text = ""
-        if gameloop.HasLevelLimits() then
-            local roundsLeft, timeLeft = gameloop.UntilMapChange()
-            text = LANG.GetParamTranslation(
-                "loadingscreen_round_restart_subtitle_limits_mode_" .. gameloop.GetLevelLimitsMode(),
-                { map = game.GetMap(), rounds = roundsLeft + 1, time = timeLeft }
-            )
-        else
-            text = LANG.GetParamTranslation(
-                "loadingscreen_round_restart_subtitle_limits_mode_0",
-                { map = game.GetMap() }
-            )
-        end
-
-        -- 计算子标题位置
-        local subtitleY = centerY + (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo() and 80 or 20)
-
-        -- 子标题阴影
-        draw.AdvancedText(
-            text,
-            "PureSkinPopupText",
-            centerX + 1,
-            subtitleY + 1,
-            Color(0, 0, 0, 100 * progress),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-        
-        -- 子标题主文字
-        local subtitleColor = Color(220, 220, 220, 255 * progress)
-        draw.AdvancedText(
-            text,
-            "PureSkinPopupText",
-            centerX,
-            subtitleY,
-            subtitleColor,
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-        
-        -- 动态加载指示器
-        local loadingY = centerY + 50
-        if LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo then
-            loadingY = centerY + (LoadingScreenVisual.ShouldShowLogo() and 120 or 50)
-        end
-        
-        -- 使用更稳定的颜色值
-        local loadingColor = Color(255, 255, 255, 200 * progress)
-        if vskin and vskin.GetAccentColor then
-            local accentColor = vskin.GetAccentColor()
-            if accentColor then
-                loadingColor = Color(accentColor.r, accentColor.g, accentColor.b, 200 * progress)
-            end
-        end
-        
-        -- 添加错误处理
+        -- 绘制加载文本
         pcall(function()
             draw.AdvancedText(
                 loadingText,
-                "PureSkinRole",
-                centerX,
-                loadingY,
-                loadingColor,
+                fontName,
+                ScrW() / 2,
+                ScrH() / 2 + 50,
+                Color(255, 255, 255, 255 * progress),
                 TEXT_ALIGN_CENTER,
                 TEXT_ALIGN_CENTER,
                 true,
@@ -682,7 +561,7 @@ if CLIENT then
             draw.AdvancedText(
                 tipTitle,
                 "PureSkinRole",
-                centerX + 1,
+                ScrW() / 2 + 1,
                 tipY - 5 + 1,
                 Color(0, 0, 0, 150 * progress),
                 TEXT_ALIGN_CENTER,
@@ -695,7 +574,7 @@ if CLIENT then
             draw.SimpleText(
                 tipTitle,
                 "DermaLarge", -- 恢复原来的字体
-                centerX,
+                ScrW() / 2,
                 tipY + 5, -- 标题在框内下移
                 Color(255, 255, 100, 255), -- 亮黄色标题
                 TEXT_ALIGN_CENTER,
@@ -734,7 +613,7 @@ if CLIENT then
                 draw.SimpleText(
                     textWrapped[i],
                     "DermaLarge", -- 恢复原来的字体
-                    centerX + 3,
+                    ScrW() / 2 + 3,
                     startY + (i-1) * (heightLine + 5) + 3, -- 减少行距和阴影偏移
                     Color(0, 0, 0, 180), -- 阴影
                     TEXT_ALIGN_CENTER,
@@ -745,7 +624,7 @@ if CLIENT then
                 draw.SimpleText(
                     textWrapped[i],
                     "DermaLarge", -- 恢复原来的字体
-                    centerX,
+                    ScrW() / 2,
                     startY + (i-1) * (heightLine + 5), -- 减少行距
                     Color(255, 255, 255, 255), -- 白色主文字
                     TEXT_ALIGN_CENTER,
