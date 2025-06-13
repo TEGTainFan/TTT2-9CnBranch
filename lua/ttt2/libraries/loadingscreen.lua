@@ -491,7 +491,6 @@ if CLIENT then
             screenHeight = ScrH(),
             centerX = ScrW() / 2,
             centerY = ScrH() / 2,
-            hasPureSkinRole = surface.GetFont("PureSkinRole") ~= nil,
             cvLoadingScreen = cvLoadingScreen:GetBool(),
             cvLoadingScreenTips = cvLoadingScreenTips:GetBool()
         }
@@ -511,8 +510,11 @@ if CLIENT then
         -- 检查字体是否可用
         local fontAvailable = false
         pcall(function()
-            local font = surface.GetFont("PureSkinRole")
-            fontAvailable = font ~= nil
+            -- 尝试设置字体
+            surface.SetFont("PureSkinRole")
+            -- 如果能获取到字体高度，说明字体存在
+            local _, h = surface.GetTextSize("测试")
+            fontAvailable = h > 0
         end)
         
         print("=== TTT2加载文本状态 ===")
@@ -525,18 +527,28 @@ if CLIENT then
         -- 如果字体不可用，使用备用字体
         local fontName = fontAvailable and "PureSkinRole" or "DermaLarge"
         
+        -- 确保字体存在
+        if not fontAvailable then
+            -- 创建备用字体
+            surface.CreateFont("TTT2LoadingScreenFont", {
+                font = "Roboto",
+                size = 24,
+                weight = 500,
+                antialias = true
+            })
+            fontName = "TTT2LoadingScreenFont"
+        end
+        
         -- 绘制加载文本
         pcall(function()
-            draw.AdvancedText(
+            draw.SimpleText( -- 使用更简单的draw.SimpleText
                 loadingText,
                 fontName,
                 ScrW() / 2,
                 ScrH() / 2 + 50,
                 Color(255, 255, 255, 255 * progress),
                 TEXT_ALIGN_CENTER,
-                TEXT_ALIGN_CENTER,
-                true,
-                appearance and appearance.GetGlobalScale and appearance.GetGlobalScale() or 1
+                TEXT_ALIGN_CENTER
             )
         end)
 
