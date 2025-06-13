@@ -455,14 +455,7 @@ if CLIENT then
     -- @internal
     -- @realm client
     function loadingscreen.Draw()
-        -- 添加基础状态调试
-        if not cvLoadingScreen:GetBool() then
-            print("[TTT2加载屏幕] 已禁用 (cvLoadingScreen = false)")
-            return
-        end
-        
-        if loadingscreen.state == LS_HIDDEN then
-            print("[TTT2加载屏幕] 隐藏状态")
+        if not cvLoadingScreen:GetBool() or loadingscreen.state == LS_HIDDEN then
             return
         end
 
@@ -470,87 +463,53 @@ if CLIENT then
 
         if loadingscreen.state == LS_FADE_IN then
             progress = math.min((SysTime() - loadingscreen.timeStateChange) / durationStateChange, 1.0)
-            print("[TTT2加载屏幕] 淡入状态 - 进度:", math.floor(progress * 100), "%")
         elseif loadingscreen.state == LS_FADE_OUT then
             progress = 1 - math.min((SysTime() - loadingscreen.timeStateChange) / durationStateChange, 1.0)
-            print("[TTT2加载屏幕] 淡出状态 - 进度:", math.floor(progress * 100), "%")
         end
 
-        -- 调试信息：显示关键状态
-        local debugInfo = {
-            state = loadingscreen.state,
-            progress = progress,
-            timeStateChange = loadingscreen.timeStateChange,
-            currentTime = SysTime(),
-            hasLoadingScreenVisual = LoadingScreenVisual ~= nil,
-            hasVskin = vskin ~= nil,
-            hasAppearance = appearance ~= nil,
-            logoMaterial = loadingscreen.logoMaterial ~= nil,
-            currentTipText = loadingscreen.currentTipText ~= nil,
-            screenWidth = ScrW(),
-            screenHeight = ScrH(),
-            centerX = ScrW() / 2,
-            centerY = ScrH() / 2,
-            cvLoadingScreen = cvLoadingScreen:GetBool(),
-            cvLoadingScreenTips = cvLoadingScreenTips:GetBool()
-        }
-        
-        -- 格式化输出调试信息
-        print("=== TTT2加载屏幕调试信息 ===")
-        for k, v in pairs(debugInfo) do
-            print(string.format("[TTT2加载屏幕] %s: %s", k, tostring(v)))
+        if progress < 0.01 then
+            return
         end
-        print("==========================")
 
-        -- 在绘制加载文本之前添加更详细的调试
+        -- 在绘制加载文本之前
         local dotCount = math.floor(time * 2) % 4
         local loadingDots = string.rep(".", dotCount)
         local loadingText = "加载中" .. loadingDots
         
-        -- 检查字体是否可用
-        local fontAvailable = false
-        pcall(function()
-            -- 尝试设置字体
-            surface.SetFont("PureSkinRole")
-            -- 如果能获取到字体高度，说明字体存在
-            local _, h = surface.GetTextSize("测试")
-            fontAvailable = h > 0
-        end)
+        -- 加载文本区域
+        local centerX, centerY = ScrW() / 2, ScrH() / 2
+        local loadingY = centerY + (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo() and 120 or 50)
         
-        print("=== TTT2加载文本状态 ===")
-        print(string.format("[TTT2加载屏幕] 文本内容: %s", loadingText))
-        print(string.format("[TTT2加载屏幕] 点数量: %d", dotCount))
-        print(string.format("[TTT2加载屏幕] 位置: X=%d, Y=%d", ScrW() / 2, ScrH() / 2 + 50))
-        print(string.format("[TTT2加载屏幕] 字体状态: %s", fontAvailable and "可用" or "不可用"))
-        print("========================")
-
-        -- 如果字体不可用，使用备用字体
-        local fontName = fontAvailable and "PureSkinRole" or "DermaLarge"
+        -- 加载文本背景装饰
+        local loadingBgAlpha = 80 * progress
+        surface.SetDrawColor(0, 0, 0, loadingBgAlpha)
+        surface.DrawRect(ScrW() * 0.15, loadingY - 20, ScrW() * 0.7, 40)
         
-        -- 确保字体存在
-        if not fontAvailable then
-            -- 创建备用字体
-            surface.CreateFont("TTT2LoadingScreenFont", {
-                font = "Roboto",
-                size = 24,
-                weight = 500,
-                antialias = true
-            })
-            fontName = "TTT2LoadingScreenFont"
-        end
+        -- 加载文本边框
+        surface.SetDrawColor(255, 255, 100, 150 * progress)
+        surface.DrawOutlinedRect(ScrW() * 0.15, loadingY - 20, ScrW() * 0.7, 40)
         
-        -- 绘制加载文本
-        pcall(function()
-            draw.SimpleText( -- 使用更简单的draw.SimpleText
-                loadingText,
-                fontName,
-                ScrW() / 2,
-                ScrH() / 2 + 50,
-                Color(255, 255, 255, 255 * progress),
-                TEXT_ALIGN_CENTER,
-                TEXT_ALIGN_CENTER
-            )
-        end)
+        -- 加载文本阴影
+        draw.SimpleText(
+            loadingText,
+            "DermaLarge",
+            centerX + 3,
+            loadingY + 3,
+            Color(0, 0, 0, 180 * progress),
+            TEXT_ALIGN_CENTER,
+            TEXT_ALIGN_CENTER
+        )
+        
+        -- 加载文本主文字
+        draw.SimpleText(
+            loadingText,
+            "DermaLarge",
+            centerX,
+            loadingY,
+            Color(255, 255, 255, 255 * progress),
+            TEXT_ALIGN_CENTER,
+            TEXT_ALIGN_CENTER
+        )
 
         -- 提示文本区域
         
