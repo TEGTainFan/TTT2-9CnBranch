@@ -1280,7 +1280,7 @@ end
 -- @realm shared
 function plymeta:SetFOV(fov, time, requester)
     -- if dynamic FOV is disabled, the default function should be used
-    if not self:GetPlayerSetting("enable_dynamic_fov") then
+    if not self:GetPlayerSetting("enable_dynamic_fov") or self:GetPlayerSetting("enable_dynamic_fov") == 0 then
         self:SetOldFOV(fov, time, requester)
 
         return
