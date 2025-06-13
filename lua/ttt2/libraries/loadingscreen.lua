@@ -455,23 +455,43 @@ if CLIENT then
     -- @internal
     -- @realm client
     function loadingscreen.Draw()
-        if not cvLoadingScreen:GetBool() or loadingscreen.state == LS_HIDDEN then
+        -- 添加基础状态调试
+        if not cvLoadingScreen:GetBool() then
+            print("[TTT2加载屏幕] 已禁用 (cvLoadingScreen = false)")
+            return
+        end
+        
+        if loadingscreen.state == LS_HIDDEN then
+            print("[TTT2加载屏幕] 隐藏状态")
             return
         end
 
         local progress = 1
 
         if loadingscreen.state == LS_FADE_IN then
-            progress =
-                math.min((SysTime() - loadingscreen.timeStateChange) / durationStateChange, 1.0)
+            progress = math.min((SysTime() - loadingscreen.timeStateChange) / durationStateChange, 1.0)
+            print("[TTT2加载屏幕] 淡入状态 - 进度:", math.floor(progress * 100), "%")
         elseif loadingscreen.state == LS_FADE_OUT then
-            progress = 1
-                - math.min((SysTime() - loadingscreen.timeStateChange) / durationStateChange, 1.0)
+            progress = 1 - math.min((SysTime() - loadingscreen.timeStateChange) / durationStateChange, 1.0)
+            print("[TTT2加载屏幕] 淡出状态 - 进度:", math.floor(progress * 100), "%")
         end
 
-        -- stop rendering the loadingscreen if the progress is close to 0, this removes
-        -- an ugly step when transitioning from blurry to sharp
+        -- 调试信息：显示关键状态
+        print("[TTT2加载屏幕] 调试信息:", {
+            state = loadingscreen.state,
+            progress = progress,
+            timeStateChange = loadingscreen.timeStateChange,
+            currentTime = SysTime(),
+            hasLoadingScreenVisual = LoadingScreenVisual ~= nil,
+            hasVskin = vskin ~= nil,
+            hasAppearance = appearance ~= nil,
+            logoMaterial = loadingscreen.logoMaterial ~= nil,
+            currentTipText = loadingscreen.currentTipText ~= nil
+        })
+
+        -- stop rendering the loadingscreen if the progress is close to 0
         if progress < 0.01 then
+            print("[TTT2加载屏幕] 进度过低，停止渲染")
             return
         end
 
