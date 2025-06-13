@@ -499,147 +499,39 @@ if CLIENT then
         
         -- LOGO绘制 (在文字之前绘制，作为背景层)
         DrawLogo(progress)
-        
-
-        
-        -- 中央内容区域
-        local centerX, centerY = ScrW() / 2, ScrH() / 2
-        local animSpeed = LoadingScreenVisual and LoadingScreenVisual.GetAnimationSpeed() or 1
-        local time = (SysTime() - loadingscreen.animationStartTime) * animSpeed
-        
-        -- 主标题带阴影效果  
-        local titleText = LANG.TryTranslation("loadingscreen_round_restart_title")
-        local logoOffset = (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo()) and 120 or 60
-        local titleY = centerY - logoOffset
-        local titleBounce = math.sin(time * 2) * 3
-        
-        -- 阴影
-        draw.AdvancedText(
-            titleText,
-            "PureSkinPopupTitle",
-            centerX + 2,
-            titleY + titleBounce + 2,
-            Color(0, 0, 0, 150 * progress),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-        
-        -- 主文字
-        local titleColor = Color(255, 255, 255, 255 * progress)
-        draw.AdvancedText(
-            titleText,
-            "PureSkinPopupTitle",
-            centerX,
-            titleY + titleBounce,
-            titleColor,
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-
-        -- 子标题文本
-        local text = ""
-        if gameloop.HasLevelLimits() then
-            local roundsLeft, timeLeft = gameloop.UntilMapChange()
-            text = LANG.GetParamTranslation(
-                "loadingscreen_round_restart_subtitle_limits_mode_" .. gameloop.GetLevelLimitsMode(),
-                { map = game.GetMap(), rounds = roundsLeft + 1, time = timeLeft }
-            )
-        else
-            text = LANG.GetParamTranslation(
-                "loadingscreen_round_restart_subtitle_limits_mode_0",
-                { map = game.GetMap() }
-            )
-        end
-
-        -- 计算子标题位置
-        local subtitleY = centerY + (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo() and 80 or 20)
-
-        -- 子标题阴影
-        draw.AdvancedText(
-            text,
-            "PureSkinPopupText",
-            centerX + 1,
-            subtitleY + 1,
-            Color(0, 0, 0, 100 * progress),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-        
-        -- 子标题主文字
-        local subtitleColor = Color(220, 220, 220, 255 * progress)
-        draw.AdvancedText(
-            text,
-            "PureSkinPopupText",
-            centerX,
-            subtitleY,
-            subtitleColor,
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
-        
-        -- 动态加载指示器
-        local dotCount = math.floor(time * 2) % 4
-        local loadingDots = string.rep(".", dotCount)
-        local loadingText = "加载中" .. loadingDots
-        local loadingY = centerY + (LoadingScreenVisual and LoadingScreenVisual.ShouldShowLogo() and 120 or 50)
-        
-        draw.AdvancedText(
-            loadingText,
-            "PureSkinRole",
-            centerX,
-            loadingY,
-            Color(vskin.GetAccentColor().r, vskin.GetAccentColor().g, vskin.GetAccentColor().b, 200 * progress),
-            TEXT_ALIGN_CENTER,
-            TEXT_ALIGN_CENTER,
-            true,
-            appearance.GetGlobalScale()
-        )
 
         -- 提示文本区域
-        
-
-        
         if cvLoadingScreenTips:GetBool() then
-            local tipY = ScrH() * 0.8 -- 恢复到80%位置
+            local tipY = ScrH() * 0.8
             
-            -- 提示背景装饰 - 更深的背景提高对比度
+            -- 提示背景装饰
             local tipBgAlpha = 80 * progress
             surface.SetDrawColor(0, 0, 0, tipBgAlpha)
-            surface.DrawRect(ScrW() * 0.15, tipY - 20, ScrW() * 0.7, 85) -- 进一步紧凑的背景框
+            surface.DrawRect(ScrW() * 0.15, tipY - 20, ScrW() * 0.7, 85)
             
-            -- 提示边框 - 更亮的边框
-            surface.SetDrawColor(255, 255, 100, 150 * progress) -- 亮黄色边框
-            surface.DrawOutlinedRect(ScrW() * 0.15, tipY - 20, ScrW() * 0.7, 85) -- 进一步紧凑的背景框
+            -- 提示边框
+            surface.SetDrawColor(255, 255, 100, 150 * progress)
+            surface.DrawOutlinedRect(ScrW() * 0.15, tipY - 20, ScrW() * 0.7, 85)
             
             -- 提示标题阴影
             local tipTitle = LANG.TryTranslation("tips_panel_tip") or "提示"
-            draw.AdvancedText(
+            draw.SimpleText(
                 tipTitle,
-                "PureSkinRole",
-                centerX + 1,
-                tipY - 5 + 1,
-                Color(0, 0, 0, 150 * progress),
+                "DermaLarge",
+                ScrW() * 0.5 + 3,
+                tipY + 5 + 3,
+                Color(0, 0, 0, 180),
                 TEXT_ALIGN_CENTER,
-                TEXT_ALIGN_CENTER,
-                true,
-                appearance.GetGlobalScale()
+                TEXT_ALIGN_CENTER
             )
             
             -- 提示标题主文字
             draw.SimpleText(
                 tipTitle,
-                "DermaLarge", -- 恢复原来的字体
-                centerX,
-                tipY + 5, -- 标题在框内下移
-                Color(255, 255, 100, 255), -- 亮黄色标题
+                "DermaLarge",
+                ScrW() * 0.5,
+                tipY + 5,
+                Color(255, 255, 100, 255),
                 TEXT_ALIGN_CENTER,
                 TEXT_ALIGN_CENTER
             )
@@ -652,33 +544,31 @@ if CLIENT then
                     loadingscreen.currentTipKeys
                 )
                 
-                -- 如果翻译结果为空，使用备用内容
                 if not tipContent or tipContent == "" or tipContent == loadingscreen.currentTipText then
                     tipContent = "欢迎来到 TTT2！准备好开始新一轮的游戏了吗？"
                 end
             else
-                -- 备用提示内容
                 tipContent = "欢迎来到 TTT2！准备好开始新一轮的游戏了吗？"
             end
             
             local textWrapped, _, heightText = draw.GetWrappedText(
                 tipContent,
                 ScrW() * 0.7,
-                "DermaLarge", -- 使用与绘制相同的字体
-                1 -- 不使用缩放
+                "DermaLarge",
+                1
             )
 
             local heightLine = heightText / #textWrapped
-            local startY = tipY + 35 -- 内容文本在框内下移
+            local startY = tipY + 35
             
             for i = 1, #textWrapped do
                 -- 文字阴影
                 draw.SimpleText(
                     textWrapped[i],
-                    "DermaLarge", -- 恢复原来的字体
-                    centerX + 3,
-                    startY + (i-1) * (heightLine + 5) + 3, -- 减少行距和阴影偏移
-                    Color(0, 0, 0, 180), -- 阴影
+                    "DermaLarge",
+                    ScrW() * 0.5 + 3,
+                    startY + (i-1) * (heightLine + 5) + 3,
+                    Color(0, 0, 0, 180),
                     TEXT_ALIGN_CENTER,
                     TEXT_ALIGN_CENTER
                 )
@@ -686,10 +576,10 @@ if CLIENT then
                 -- 主文字
                 draw.SimpleText(
                     textWrapped[i],
-                    "DermaLarge", -- 恢复原来的字体
-                    centerX,
-                    startY + (i-1) * (heightLine + 5), -- 减少行距
-                    Color(255, 255, 255, 255), -- 白色主文字
+                    "DermaLarge",
+                    ScrW() * 0.5,
+                    startY + (i-1) * (heightLine + 5),
+                    Color(255, 255, 255, 255),
                     TEXT_ALIGN_CENTER,
                     TEXT_ALIGN_CENTER
                 )
