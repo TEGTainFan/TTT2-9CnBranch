@@ -45,66 +45,73 @@ function PANEL:SetGroupInfo(name, color, group)
     self.group = group
 end
 
-local bgcolor = Color(50, 50, 50, 150)              -- 深灰色背景
+local bgcolor = Color(30, 34, 40, 200)              -- 现代深色背景
 
 ---
 -- @ignore
 function PANEL:Paint()
-    -- Darkened background
-    draw.RoundedBox(8, 0, 0, self:GetWide(), self:GetTall(), bgcolor)
+    local w, h = self:GetWide(), self:GetTall()
+    
+    -- 团队组背景阴影
+    draw.RoundedBox( 12, -2, -2, w + 4, h + 4, Color(0, 0, 0, 80) )
+    
+    -- 现代化圆角背景
+    draw.RoundedBox(10, 0, 0, w, h, bgcolor)
 
     surface.SetFont("treb_small")
 
-    -- Header bg
+    -- Header bg - 现代化头部
     local txt = self.name .. " (" .. self.rowcount .. ")"
-    local w, h = surface.GetTextSize(txt)
+    local tw, th = surface.GetTextSize(txt)
 
-    draw.RoundedBox(8, 0, 0, w + 24, 20, self.color)
+    -- 头部背景渐变效果
+    draw.RoundedBox(8, 0, 0, tw + 32, 26, self.color)
+    draw.RoundedBox(12, -2, -2, tw + 36, 30, Color(self.color.r, self.color.g, self.color.b, 60))
 
-    -- Shadow
-    surface.SetTextPos(11, 11 - h * 0.5)
-    surface.SetTextColor(0, 0, 0, 200)
+    -- Text shadow - 更现代的阴影
+    surface.SetTextPos(13, 13 - th * 0.5)
+    surface.SetTextColor(0, 0, 0, 150)
     surface.DrawText(txt)
 
-    -- Text
-    surface.SetTextPos(10, 10 - h * 0.5)
+    -- Main text - 白色文字
+    surface.SetTextPos(12, 12 - th * 0.5)
     surface.SetTextColor(255, 255, 255, 255)
     surface.DrawText(txt)
 
-    -- Alternating row background
-    local y = 24
+    -- Alternating row background - 现代化条纹
+    local y = 30
 
     for i = 1, #self.rows_sorted do
         local row = self.rows_sorted[i]
 
         if i % 2 ~= 0 then
-            surface.SetDrawColor(90, 90, 90, 100)           -- 中灰色条纹
-            surface.DrawRect(0, y, self:GetWide(), row:GetTall())
+            surface.SetDrawColor(45, 50, 60, 120)           -- 现代灰色条纹
+            draw.RoundedBox(4, 2, y, w - 4, row:GetTall(), Color(45, 50, 60, 120))
         end
 
         y = y + row:GetTall() + 1
     end
 
-    -- Column darkening
+    -- Column darkening - 现代化列背景
     local scr = sboard_panel.ply_frame.scroll.Enabled and 16 or 0
 
-    surface.SetDrawColor(70, 70, 70, 80)                   -- 深灰色列背景
+    surface.SetDrawColor(40, 45, 55, 100)                   -- 现代深色列背景
 
     if sboard_panel.cols then
-        local cx = self:GetWide() - scr
+        local cx = w - scr
 
         for k, v in ipairs(sboard_panel.cols) do
             cx = cx - v.Width
 
             if k % 2 == 1 then -- Draw for odd numbered columns
-                surface.DrawRect(cx - v.Width * 0.5, 0, v.Width, self:GetTall())
+                draw.RoundedBox(6, cx - v.Width * 0.5, 30, v.Width, h - 30, Color(40, 45, 55, 100))
             end
         end
     else
         -- If columns are not setup yet, fall back to darkening the areas for the
         -- default columns
-        surface.DrawRect(self:GetWide() - 200 - scr, 0, 50, self:GetTall())
-        surface.DrawRect(self:GetWide() - 100 - scr, 0, 50, self:GetTall())
+        draw.RoundedBox(6, w - 200 - scr, 30, 50, h - 30, Color(40, 45, 55, 100))
+        draw.RoundedBox(6, w - 100 - scr, 30, 50, h - 30, Color(40, 45, 55, 100))
     end
 end
 
@@ -264,12 +271,12 @@ function PANEL:PerformLayout()
         return
     end
 
-    self:SetSize(self:GetWide(), 30 + self.rowcount + self.rowcount * SB_ROW_HEIGHT)
+    self:SetSize(self:GetWide(), 36 + self.rowcount + self.rowcount * SB_ROW_HEIGHT)
 
     -- Sort and layout player rows
     self:UpdateSortCache()
 
-    local y = 24
+    local y = 30
 
     for i = 1, #self.rows_sorted do
         local v = self.rows_sorted[i]
@@ -280,7 +287,7 @@ function PANEL:PerformLayout()
         y = y + v:GetTall() + 1
     end
 
-    self:SetSize(self:GetWide(), 30 + (y - 24))
+    self:SetSize(self:GetWide(), 36 + (y - 30))
 end
 
 vgui.Register("TTTScoreGroup", PANEL, "Panel")

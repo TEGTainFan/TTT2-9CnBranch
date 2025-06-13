@@ -15,7 +15,7 @@ local surface = surface
 local vgui = vgui
 local drawRoundedBox = draw.RoundedBox
 
-local colorTransparent = Color(60, 60, 60, 0)        -- 深灰色透明背景
+local colorTransparent = Color(35, 39, 46, 0)        -- 现代深色透明背景
 
 local materialIndicatorDev = "vgui/ttt/ttt2_indicator_dev"
 local materialIndicatorVIP = "vgui/ttt/ttt2_indicator_vip"
@@ -92,7 +92,7 @@ local heroes_tbl = {
 }
 
 local namecolor = {
-    default = Color(220, 220, 220, 255),      -- 浅灰色默认文字
+    default = Color(240, 245, 250, 255),      -- 现代浅色文字
     dev = Color(100, 240, 105, 255),
     vip = Color(220, 55, 55, 255),
     addondev = Color(30, 105, 30, 255),
@@ -278,22 +278,26 @@ function PANEL:Paint(width, height)
         return false
     end
 
-    --	if (self.Player:GetFriendStatus() == "friend") then
-    --		color = Color(236, 181, 113, 255)
-    --	end
-
     local ply = self.Player
 
     ---
     -- @realm client
     local c = hook.Run("TTTScoreboardRowColorForPlayer", ply)
 
-    surface.SetDrawColor(clr(c))
-    surface.DrawRect(0, 0, width, SB_ROW_HEIGHT)
+    -- 现代化行背景
+    if c and c.a > 0 then
+        draw.RoundedBox(6, 0, 0, width, SB_ROW_HEIGHT, c)
+    end
 
+    -- 当前玩家高亮效果 - 现代化设计
     if ply == LocalPlayer() then
-        surface.SetDrawColor(150, 150, 150, math.Clamp(math.sin(RealTime() * 2) * 50, 0, 100))  -- 灰色高亮
-        surface.DrawRect(0, 0, width, SB_ROW_HEIGHT)
+        local pulse = math.abs(math.sin(RealTime() * 1.5)) * 0.3 + 0.1
+        local highlightColor = Color(52, 152, 219, math.Clamp(pulse * 255, 50, 150))
+        draw.RoundedBox(6, 1, 1, width - 2, SB_ROW_HEIGHT - 2, highlightColor)
+        
+        -- 边框效果
+        surface.SetDrawColor(52, 152, 219, 200)
+        surface.DrawOutlinedRect(0, 0, width, SB_ROW_HEIGHT)
     end
 
     return true
@@ -373,11 +377,11 @@ function PANEL:UpdatePlayerData()
 
     self.nick2:SetText(ply:Nick())
     self.nick2:SizeToContents()
-    self.nick2:SetTextColor(Color(80, 80, 80, 255))       -- 深灰色阴影
+    self.nick2:SetTextColor(Color(45, 50, 60, 255))       -- 现代深色阴影
 
     self.nick3:SetText(ply:Nick())
     self.nick3:SizeToContents()
-    self.nick3:SetTextColor(Color(80, 80, 80, 255))       -- 深灰色阴影
+    self.nick3:SetTextColor(Color(45, 50, 60, 255))       -- 现代深色阴影
 
     self.nick:SetText(ply:Nick())
     self.nick:SizeToContents()
@@ -396,8 +400,8 @@ function PANEL:UpdatePlayerData()
             self.team:SetImage(teamImageName)
         end
 
-        self.team2:SetImageColor(Color(80, 80, 80, 255))     -- 深灰色
-        self.team:SetImageColor(Color(220, 220, 220, 255))   -- 浅灰色
+        self.team2:SetImageColor(Color(45, 50, 60, 255))     -- 现代深色
+        self.team:SetImageColor(Color(240, 245, 250, 255))   -- 现代浅色
 
         self.team:SetTooltip(LANG.GetTranslation(tm))
     end
@@ -443,7 +447,7 @@ function PANEL:UpdatePlayerData()
     end
 
     self.tag:SetText(ptag and GetTranslation(ptag.txt) or "")
-    self.tag:SetTextColor(ptag and ptag.color or Color(200, 200, 200, 255))  -- 浅灰色标签文字
+    self.tag:SetTextColor(ptag and ptag.color or Color(180, 185, 195, 255))  -- 现代次要文字色
     self.tag:SetFont("treb_small")
 
     local show_sresult = true
@@ -485,14 +489,14 @@ function PANEL:ApplySchemeSettings()
         local v = self.cols[i]
 
         v:SetFont("treb_small")
-        v:SetTextColor(Color(200, 200, 200, 255))         -- 浅灰色列文字
+        v:SetTextColor(Color(180, 185, 195, 255))         -- 现代次要文字色
     end
 
     self.nick2:SetFont("treb_small")
-    self.nick2:SetTextColor(Color(80, 80, 80, 255))       -- 深灰色阴影
+    self.nick2:SetTextColor(Color(45, 50, 60, 255))       -- 现代深色阴影
 
     self.nick3:SetFont("treb_small")
-    self.nick3:SetTextColor(Color(80, 80, 80, 255))       -- 深灰色阴影
+    self.nick3:SetTextColor(Color(45, 50, 60, 255))       -- 现代深色阴影
 
     self.nick:SetFont("treb_small")
 
@@ -501,10 +505,10 @@ function PANEL:ApplySchemeSettings()
     end
 
     local ptag = IsValid(ply) and ply.sb_tag or nil
-    self.tag:SetTextColor(ptag and ptag.color or Color(200, 200, 200, 255))  -- 浅灰色标签文字
+    self.tag:SetTextColor(ptag and ptag.color or Color(180, 185, 195, 255))  -- 现代次要文字色
     self.tag:SetFont("treb_small")
 
-    self.sresult:SetImageColor(Color(180, 180, 180, 255)) -- 浅灰色搜索结果图标
+    self.sresult:SetImageColor(Color(180, 185, 195, 255)) -- 现代次要图标色
 
     self.dev:SetImage(materialIndicatorDev)
     self.dev:SetImageColor(namecolor.dev)

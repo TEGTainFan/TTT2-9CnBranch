@@ -361,8 +361,13 @@ function PANEL:StartUpdateTimer()
 end
 
 local colors = {
-    bg = Color(45, 45, 45, 235),              -- 深灰色背景
-    bar = Color(0, 100, 2555, 255),          -- 深蓝色条形
+    bg = Color(35, 39, 46, 245),              -- 现代深蓝灰色背景
+    bgHeader = Color(25, 29, 35, 255),        -- 更深的头部背景
+    bar = Color(52, 152, 219, 255),           -- 现代蓝色条形
+    barGlow = Color(52, 152, 219, 100),       -- 蓝色光晕
+    shadow = Color(0, 0, 0, 120),             -- 阴影色
+    text = Color(255, 255, 255, 255),         -- 主文字色
+    textSecondary = Color(180, 185, 195, 255), -- 次要文字色
 }
 
 local y_logo_off = 89
@@ -370,13 +375,24 @@ local y_logo_off = 89
 ---
 -- @ignore
 function PANEL:Paint()
-    -- Logo sticks out, so always offset bg
-    draw.RoundedBox(0, 0, y_logo_off, self:GetWide(), self:GetTall() - y_logo_off, colors.bg)
-
-    -- Server name is outlined by orange/gold area
-    draw.RoundedBox(0, 0, y_logo_off + 25, self:GetWide(), 32, colors.bar)
-
-    -- TTT Logo
+    local w, h = self:GetWide(), self:GetTall()
+    
+    -- 主背景阴影
+    draw.RoundedBox( 12, -6, -6, w + 12, h + 12, colors.shadow )
+    
+    -- 主背景
+    draw.RoundedBox( 12, 0, y_logo_off, w, h - y_logo_off, colors.bg )
+    
+    -- 头部区域背景
+    draw.RoundedBoxEx( 12, 0, y_logo_off + 25, w, 57, colors.bgHeader, true, true, false, false )
+    
+    -- 服务器名称条形 - 现代化设计
+    draw.RoundedBox( 8, 10, y_logo_off + 30, w - 20, 22, colors.bar )
+    
+    -- 条形光晕效果
+    draw.RoundedBox( 12, 8, y_logo_off + 28, w - 16, 26, colors.barGlow )
+    
+    -- TTT Logo - 清晰显示
     surface.SetTexture(TTTScoreboard.Logo)
     surface.SetDrawColor(255, 255, 255, 255)
     surface.DrawTexturedRect(5, 0, 256, 256)
@@ -450,7 +466,7 @@ function PANEL:PerformLayout()
     self.mapchange:SetPos(w - self.mapchange:GetWide() - 8, y_logo_off + 60)
 
     -- score columns
-    local cy = y_logo_off + 90
+    local cy = y_logo_off + 95
     local cx = w - 8 - (scrolling and 16 or 0)
 
     for _, v in ipairs(self.cols) do
@@ -482,13 +498,13 @@ function PANEL:ApplySchemeSettings()
     self.hostname:SetFont("cool_large")
     self.mapchange:SetFont("treb_small")
 
-    self.hostdesc:SetTextColor(Color(200, 200, 200, 255))    -- 浅灰色主机描述文字
-    self.hostname:SetTextColor(Color(255, 255, 255, 255))    -- 白色主机名文字
-    self.mapchange:SetTextColor(Color(200, 200, 200, 255))   -- 浅灰色地图变更文字
+    self.hostdesc:SetTextColor(colors.textSecondary)    -- 现代次要文字色
+    self.hostname:SetTextColor(colors.text)             -- 现代主文字色
+    self.mapchange:SetTextColor(colors.textSecondary)   -- 现代次要文字色
 
     local sorting = cv_ttt_scoreboard_sorting:GetString()
-    local highlight_color = Color(180, 180, 180, 255)        -- 亮灰色高亮
-    local default_color = Color(220, 220, 220, 255)          -- 浅灰色默认文字
+    local highlight_color = Color(52, 152, 219, 255)    -- 蓝色高亮
+    local default_color = colors.text                     -- 现代默认文字色
 
     for _, v in pairs(self.cols) do
         v:SetFont("treb_small")

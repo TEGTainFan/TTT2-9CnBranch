@@ -18,7 +18,7 @@ if CLIENT then
     
     -- LOGO相关配置
     local cvShowLogo = CreateConVar("ttt2_loadingscreen_show_logo", "1", { FCVAR_ARCHIVE })
-    local cvLogoPath = CreateConVar("ttt2_loadingscreen_logo_path", "materials/ttt2/logo.png", { FCVAR_ARCHIVE })
+    local cvLogoPath = CreateConVar("ttt2_loadingscreen_logo_path", "materials/tttr/logo24.png", { FCVAR_ARCHIVE })
     local cvLogoSize = CreateConVar("ttt2_loadingscreen_logo_size", "200", { FCVAR_ARCHIVE })
     local cvLogoGlow = CreateConVar("ttt2_loadingscreen_logo_glow", "1", { FCVAR_ARCHIVE })
 

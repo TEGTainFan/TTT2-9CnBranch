@@ -6,6 +6,7 @@
 ## Unreleased
 
 ### Changed
-- 重构了 cl_equip.lua 使其更匹配目前的整体风格 (by [TEGTainFan](https://gitee.com/TEGTainFan))
+- 重构了 cl_equip 使其更匹配目前的整体风格 (by [TEGTainFan](https://gitee.com/TEGTainFan))
 - 重构了 loadingscreen 现在看上去更花里胡哨了 (by [TEGTainFan](https://gitee.com/TEGTainFan))
+- 重构了 cl_sb_xxx 使其更匹配目前的整体风格 (by [TEGTainFan](https://gitee.com/TEGTainFan))
 - 修改了 entspawn 将其弹药生成统一为"arc9_ammo" (by [TEGTainFan](https://gitee.com/TEGTainFan))
