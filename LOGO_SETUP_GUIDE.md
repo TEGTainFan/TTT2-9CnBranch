@@ -119,7 +119,7 @@ end
 if CLIENT then
     -- 设置插件专用 LOGO
     hook.Add("TTT2Initialize", "MyAddonLogo", function()
-        if GetConVar("ttt2_loadingscreen_logo_path"):GetString() == "materials/tttr/logo24.png" then
+        if GetConVar("ttt2_loadingscreen_logo_path"):GetString() == "materials/ttt2/logo.png" then
             RunConsoleCommand("ttt2_loadingscreen_logo_path", "materials/myaddon/logo.png")
         end
     end)
@@ -173,7 +173,7 @@ game.AddParticles("materials/myserver/logo.png")
 ```bash
 # LOGO 相关命令
 ttt2_loadingscreen_show_logo "1"
-ttt2_loadingscreen_logo_path "materials/tttr/logo24.png"
+ttt2_loadingscreen_logo_path "materials/ttt2/logo.png"
 ttt2_loadingscreen_logo_size "200"
 ttt2_loadingscreen_logo_glow "1"
 
