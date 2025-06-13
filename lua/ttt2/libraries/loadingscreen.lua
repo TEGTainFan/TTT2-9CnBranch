@@ -471,6 +471,10 @@ if CLIENT then
             return
         end
 
+        -- 计算动画时间
+        local animSpeed = LoadingScreenVisual and LoadingScreenVisual.GetAnimationSpeed() or 1
+        local time = (SysTime() - loadingscreen.animationStartTime) * animSpeed
+        
         -- 在绘制加载文本之前
         local dotCount = math.floor(time * 2) % 4
         local loadingDots = string.rep(".", dotCount)
