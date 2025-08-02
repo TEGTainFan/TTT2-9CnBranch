@@ -1112,7 +1112,7 @@ L.hud_revival_title = "复活剩余时间："
 L.hud_revival_time = "{time}秒"
 
 -- 2020-05-03
-L.door_destructible = "此门不可摧毁 （{health}生命值）"
+L.door_destructible = "此门可摧毁 （{health}生命值）"
 
 -- 2020-05-28
 L.corpse_hint_inspect_limited = "按下 [{usekey}] 进行搜索。按下 [{walkkey} + {usekey}] 仅查看搜索界面。"
